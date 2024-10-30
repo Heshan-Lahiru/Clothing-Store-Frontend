@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from '../../navigationbar/nav'
-export default function home() {
+export default function Home() {
   return (
     <div>
       <Nav />
