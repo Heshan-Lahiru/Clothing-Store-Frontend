@@ -18,8 +18,10 @@ export default function SignUp() {
         if (mypassword.length <8 || mypassword.length >15) {alert("Password length must be 8");return;}
 
         if (mobilenumber.length !== 10) {alert("Invalid mobile number.");return;}
-        
+
         const password = CryptoJS.SHA256(mypassword).toString(); 
+
+    
 
         const datanew = new FormData();
         datanew.append('customerDao', JSON.stringify({ name, email, gender, password, address, mobilenumber }));

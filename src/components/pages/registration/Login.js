@@ -1,5 +1,5 @@
 import React,{useState}  from 'react';
-
+import CryptoJS from 'crypto-js';
 
 export default function Login() {
 
@@ -10,8 +10,23 @@ const handleInputChange =(e) =>{const { name, value } = e.target; setFormData({ 
 const logincustomer = async()=>{
   const {email, password} =formData;
 
-   await  fetch("http://localhost:9070/register", { method: "POST", body: JSON.stringify({  email, password }), })
-  
+ const mypassword = CryptoJS.SHA256(password).toString();
+
+  const response = await fetch("http://localhost:9070/login", { method: "POST", headers: { "Content-Type": "application/json",  },
+    body: JSON.stringify({ email}), 
+});
+   if (!response.ok) {alert("Wrong Email Address ...");}
+   const responsdata = await response.json();
+    let pws  = responsdata.password;
+
+   if(pws == mypassword){
+    alert("Customer found: " + mypassword);
+   }
+   else{
+   alert("wrong password ....")
+   }
+   
+
 }
 
     return (
