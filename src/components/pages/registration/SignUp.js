@@ -1,182 +1,127 @@
-import React from 'react'
+import React, { useState } from 'react';
+import CryptoJS from 'crypto-js';
 
 export default function SignUp() {
+    const [formData, setFormData] = useState({ name: '', email: '', gender: '', mypassword: '', repassword: '', address: '', mobilenumber: '', image: null,});
 
-    function savecustomer(){
+    const handleInputChange = (e) => {const { name, value } = e.target; setFormData({ ...formData, [name]: value });};
 
-    let name = document.getElementById("inputname").value;
-    let email = document.getElementById("inputemail").value;
-    let image = document.getElementById("inputimage").value;
-    let gender = document.getElementById("inputgender").value;
-    let password = document.getElementById("inputpassword").value;
-    let repassword = document.getElementById("inputrepeatpassword").value;
-    let address = document.getElementById("inputaddress").value;
-    let mobilenumber = document.getElementById("inputmobilenumber").value;
+    const handleImageChange = (e) => { setFormData({ ...formData, image: e.target.files[0] });};
 
-    if(name === "" || email === "" || image === "" || gender ==="" || password === "" || repassword === "" || address === "" || mobilenumber === "" ){alert("form correctly fill please ......")}
-    else{ 
-   if(password === repassword){
-       
-            let jsondata={
-                    "name" : name,
-                    "email" : email,
-                    "image" : image,
-                    "gender" : gender,
-                    "password" : password,
-                    "address" : address,
-                    "mobilenumber" : mobilenumber
-                 }
-                  savedata(jsondata);
-              }
-   else{alert("password Isnt Match .....") }
-  }
-    }
+    const saveCustomer = async () => {
+        const { name, email, gender, mypassword, repassword, address, mobilenumber, image } = formData;
 
-function emailcheck(jsondata){
-  fetch("http://localhost:9070/register",
-    {
-      method: "POST" ,
-      body: JSON.stringify(jsondata),
-      headers:
-      {
-        "content-type" : "application/json"
-      }
-    }
-  )
-  .then(res => res.json())
-  .then(data => {
-   alert("register successfull ....");
-  })
-}
+        if (!name || !email || !gender || !mypassword || !repassword || !address || !mobilenumber || !image) {alert("Please fill out all fields.");return;}
 
+        if (mypassword !== repassword) {alert("Passwords do not match.");return;}
 
-function savedata(jsondata){
-  fetch("http://localhost:9070/emailvalidation",
-    {
-      method: "POST" ,
-      body: JSON.stringify(jsondata),
-      headers:
-      {
-        "content-type" : "application/json"
-      }})
-  .then(res => res.json())
-  .then(data => {
-  if(data === true){ alert("email already exits  ....")}
-  else{emailcheck(jsondata);}
-  })}
-  return (
-    <div>
+        if (mypassword.length <8 || mypassword.length >15) {alert("Password length must be 8");return;}
 
- <section className="vh-100" >
-  <div className="container h-100" >
-    <div className="row d-flex justify-content-center align-items-center h-100">
-      <div className="col-lg-12 col-xl-11">
-        <div className="card text-black" style={{borderRadius: '25px' }}>
-          <div className="card-body p-md-5">
-            <div className="row justify-content-center">
-              <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+        if (mobilenumber.length !== 10) {alert("Invalid mobile number.");return;}
+        
+        const password = CryptoJS.SHA256(mypassword).toString(); 
 
-                <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+        const datanew = new FormData();
+        datanew.append('customerDao', JSON.stringify({ name, email, gender, password, address, mobilenumber }));
+        datanew.append('multipartFile', image);
 
-                <form className="mx-1 mx-md-4" >
+        
+        const response =await  fetch("http://localhost:9070/register", { method: "POST", body: datanew, })
 
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                      <input type="text" id="inputname" className="form-control" />
-                      <label className="form-label">Your Name</label>
+        if (!response.ok) {alert("An error Ocured ...");}
+
+         await response.json();
+        alert("Customer registered successfully");
+           
+
+    };
+
+    return (
+        <section className="vh-100 bg-light">
+          <div className="container py-5 h-100">
+            <div className="row d-flex justify-content-center align-items-center h-100">
+              <div className="col-12">
+                <div className="card shadow-lg rounded-4">
+                  <div className="row g-0">
+                    
+                    <div className="col-md-6">
+                      <div className="card-body p-4 p-md-5">
+                        <h2 className="text-center fw-bold mb-5">Sign Up</h2>
+                        
+                        <form className="mx-1 mx-md-4" onSubmit={(e) => e.preventDefault()}>
+                      
+                          <div className="form-floating mb-4">
+                            <input  type="text"  className="form-control rounded-3"  name="name"  placeholder="Your Name" onChange={handleInputChange} />
+                            <label htmlFor="floatingName">Your Name</label>
+                          </div>
+    
+                      <div className="form-floating mb-4">
+                            <input type="email" className="form-control rounded-3" name="email"  placeholder="Email Address" onChange={handleInputChange} />
+                            <label htmlFor="floatingEmail">Email Address</label>
+                          </div>
+    
+                        
+                          <div className="mb-4">
+                            <label className="form-label">Profile Picture</label>
+                            <input type="file" className="form-control rounded-3"onChange={handleImageChange} />
+                          </div>
+    
+                        
+                          <div className="form-floating mb-4">
+                            <select className="form-select rounded-3" name="gender"onChange={handleInputChange} >
+                              <option value="">Select Gender</option>
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                              <option value="non-binary">Non-binary</option>
+                              <option value="transgender">Transgender</option>
+                            </select>
+                            <label htmlFor="floatingGender">Gender</label>
+                          </div>
+    
+                       
+                          <div className="form-floating mb-4">
+                            <input type="password" className="form-control rounded-3" name="mypassword"  placeholder="Password" onChange={handleInputChange} />
+                            <label htmlFor="floatingPassword">Password</label>
+                          </div>
+    
+                         
+                          <div className="form-floating mb-4">
+                            <input type="password" className="form-control rounded-3" name="repassword"  placeholder="Confirm Password"onChange={handleInputChange}/>
+                            <label htmlFor="floatingConfirmPassword">Confirm Password</label>
+                          </div>
+    
+                        
+                          <div className="form-floating mb-4">
+                            <input type="text"   className="form-control rounded-3" name="address"  placeholder="Address" onChange={handleInputChange} />
+                            <label htmlFor="floatingAddress">Address</label>
+                          </div>
+    
+                         
+                          <div className="form-floating mb-4">
+                            <input type="tel" className="form-control rounded-3"  name="mobilenumber" placeholder="Mobile Number" onChange={handleInputChange} />
+                            <label htmlFor="floatingMobile">Mobile Number</label>
+                          </div>
+    
+                          
+                          <div className="d-grid gap-2 mb-3">
+                            <button type="button" className="btn btn-primary btn-lg rounded-3" onClick={saveCustomer}>Register</button>
+                          </div>
+    
+                    
+                          <div className="text-center"> Already have an account? <a href="/login" className="text-primary text-decoration-none ms-2">Login here</a></div>
+                        </form>
+                      </div>
+                    </div>
+    
+                 
+                    <div className="col-md-6 d-none d-md-block">
+                      <img src="https://img.freepik.com/premium-photo/fashion-fabric-theme-3d-abstract-background_893012-52247.jpg" alt="Login"  className="w-100 h-100 rounded-end-4" style={{ objectFit: 'cover' }}  />
                     </div>
                   </div>
-
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                      <input type="email" id="inputemail" className="form-control" />
-                      <label className="form-label">Your Email</label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                      <input type="file" id="inputimage" className="form-control" />
-                      <label className="form-label">Your Image</label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                    <select  className="form-control" name="inputgender" id="inputgender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="non-binary">Non-binary</option>
-                    <option value="transgender">Transgender</option>
-                  </select>
-                      <label className="form-label">Gender</label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                      <input type="password" id="inputpassword" className="form-control" />
-                      <label className="form-label" >Password</label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                      <input type="password" id="inputrepeatpassword" className="form-control" />
-                      <label className="form-label" >Repeat your password</label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                      <input type="text" id="inputaddress" className="form-control" />
-                      <label className="form-label">Your Address</label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                      <input type="text" id="inputmobilenumber" className="form-control" />
-                      <label className="form-label">Your Mobile Number</label>
-                    </div>
-                  </div>
-
-                  <div className="form-check d-flex justify-content-center mb-5">
-                    <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                    <label className="form-check-label" >
-                      I agree all statements in <a href="#!">Terms of service</a>
-                    </label>
-                  </div>
-
-                  <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button onClick={savecustomer}  type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary btn-lg">Register</button>
-                  </div>
-
-                </form>
-
-              </div>
-              <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="/signupcover.gif"
-                  className="img-fluid" alt="Sample "/>
-
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-    </div>
-  )
+        </section>
+      );
 }
