@@ -162,7 +162,7 @@ const Navigation = () => {
                 <i className="bi bi-person-plus-fill me-2"></i>Sign Up
               </a>
               <a href="/whatsapp" ><img src="./WhatsApp_icon.png" alt="Logo" height="40" className="d-inline-block align-top" /></a>  
-              <a href="/profile" > <img src="./Profile.png" alt="Logo" height="40" className="d-inline-block align-top" /></a>
+              <a href="/userprofile" > <img src="./Profile.png" alt="Logo" height="40" className="d-inline-block align-top" /></a>
 
             </div>
           </div>
