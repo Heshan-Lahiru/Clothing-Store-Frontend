@@ -26,13 +26,13 @@ const logincustomer = async () => {
         alert(`Error: ${errorData.message || "Login failed. Please try again."}`);
       } else {
         const responseData = await response.json();
-        alert("Customer found: " + responseData.email);
+        
   
         if (responseData.token) {
             localStorage.setItem("jwtToken", responseData.token);
             navigate('/');
          if(responseData.role === "admin"){
-          navigate('/adminprofile');
+          navigate('/admin');
          }
          else{
           navigate('/userprofile');
