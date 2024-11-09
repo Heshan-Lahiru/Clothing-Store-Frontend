@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import CryptoJS from 'crypto-js';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({ name: '', email: '', gender: '', mypassword: '', repassword: '', address: '', mobilenumber: '', image: null,});
 
     const handleInputChange = (e) => {const { name, value } = e.target; setFormData({ ...formData, [name]: value });};
@@ -34,7 +36,7 @@ export default function SignUp() {
 
          await response.json();
         alert("Customer registered successfully");
-           
+        navigate('/login');
 
     };
 
@@ -70,7 +72,7 @@ export default function SignUp() {
     
                         
                           <div className="form-floating mb-4">
-                            <select className="form-select rounded-3" name="gender"onChange={handleInputChange} >
+                            <select className="form-select rounded-3" name="gender" onChange={handleInputChange} >
                               <option value="">Select Gender</option>
                               <option value="male">Male</option>
                               <option value="female">Female</option>

@@ -1,33 +1,51 @@
 import React,{useState}  from 'react';
 import CryptoJS from 'crypto-js';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-
+    const navigate = useNavigate();
 const [formData,setFormData]=useState({email:'', passowrd : ''});
 
 const handleInputChange =(e) =>{const { name, value } = e.target; setFormData({ ...formData, [name]: value });};
 
-const logincustomer = async()=>{
-  const {email, password} =formData;
+const logincustomer = async () => {
+    const { email, password } = formData;
+    const mypassword = CryptoJS.SHA256(password).toString();
+  
+    try {
+      const response = await fetch("http://localhost:9070/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, mypassword }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message || "Login failed. Please try again."}`);
+      } else {
+        const responseData = await response.json();
+        
+  
+        if (responseData.token) {
+            localStorage.setItem("jwtToken", responseData.token);
+            navigate('/');
+         if(responseData.role === "admin"){
+          navigate('/admin');
+         }
+         else{
+          navigate('/userprofile');
+         }
 
- const mypassword = CryptoJS.SHA256(password).toString();
 
-  const response = await fetch("http://localhost:9070/login", { method: "POST", headers: { "Content-Type": "application/json",  },
-    body: JSON.stringify({ email}), 
-});
-   if (!response.ok) {alert("Wrong Email Address ...");}
-   const responsdata = await response.json();
-    let pws  = responsdata.password;
-
-   if(pws == mypassword){
-    alert("Customer found: " + mypassword);
-   }
-   else{
-   alert("wrong password ....")
-   }
-   
-
-}
+          }}
+      
+    } catch (error) {
+      console.error("An error occurred:", error);
+      alert("An error occurred during login. Please try again.");
+    }
+  };
 
     return (
         <section className="vh-100 bg-light">
