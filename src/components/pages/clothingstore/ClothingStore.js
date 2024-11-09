@@ -1,28 +1,33 @@
-import React,{useState} from 'react'
-import Sidebarcomponent from '../admin';
+import React,{useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-
-export default function AdminMen() {
+ 
+export default function ClothingStore() {
   const [data, setData] = useState([]);
+ const location = useLocation();
+ const queryParams = new URLSearchParams(location.search);
+const name = queryParams.get('name');
 
+const showmencloths =async () => {
   axios.get('http://localhost:9070/getmencloths')
   .then(response => {
-      setData(response.data); })
+                setData(response.data); })
     .catch(error => {
    console.log("error")
 });
+}
+
+if(name === "women"){alert('women')}
+else if(name === "men"){showmencloths()}
+else if(name === "kid"){alert('kid')}
+else{alert('nothing')}
+
+
 
   return (
-    <div className="container-fluid">
-      <div className="row vh-100">
-        <div className="col-md-3 col-lg-2 p-3 text-bg-dark">
-          <Sidebarcomponent />
-        </div>
-
-        <div className="col-md-9 col-lg-10 p-5">
-          <div className="card shadow-lg">
-          <h1>Men</h1>
-          <ul>
+    <div>
+       <h1>Welcome to the Clothing Store, {name}!</h1>
+       <ul>
                 {data.map((item, index) => (
                     <ul key={index}>
                     <li >{item.name}</li> 
@@ -35,9 +40,6 @@ export default function AdminMen() {
                     
                 ))}
             </ul>
-          </div>
-          </div>
-          </div>
-          </div>
+    </div>
   )
 }

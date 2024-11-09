@@ -15,7 +15,7 @@ import Child from './components/pages/admin/admin_profile/admindashboardchild/Ad
 import Women from './components/pages/admin/admin_profile/admindashboardwomen/AdminWomen';
 import Customers from './components/pages/admin/admincustomers/AdminCustomers';
 
-
+import ClothingStore from './components/pages/clothingstore/ClothingStore';
 
 function App() {
 
@@ -34,7 +34,7 @@ function App() {
                 <Route path="/child" element={<Child />} />
                 <Route path="/customers" element={<Customers />} />
          <Route path="/adminaddcloths" element={<Adminaddcloths />} />
-
+         <Route path="/clothingstore" element={<ClothingStore />} />
 
       </Routes>
     </Router>

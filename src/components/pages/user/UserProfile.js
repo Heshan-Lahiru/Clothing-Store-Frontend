@@ -39,7 +39,7 @@ export default function UserProfile() {
              
               <div className="text-center mb-4">
                 <img
-                  src={`http://localhost:9070/images/${userData.image}`}
+                  src={`http://localhost:9070/images/users/${userData.image}`}
                   alt="User Profile"
                   className="img-fluid rounded-circle"
                   style={{ maxWidth: '150px' }}

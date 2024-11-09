@@ -63,12 +63,13 @@ export default function UserProfile() {
               <h1 className="card-title text-center mb-4">Admin Dashbord</h1>
               
               <div className="text-center mb-4">
-                <img
-                  src={`http://localhost:9070/images/${userData.image}`}
-                  alt="User Profile"
-                  className="img-fluid rounded-circle"
-                  style={{ maxWidth: '150px' }}
-                />
+              <img
+                    src={`http://localhost:9070/images/users/${userData.image}`} 
+                    alt="User Profile"
+                    className="img-fluid rounded-circle"
+                    style={{ maxWidth: '150px' }}
+                  />
+
               </div>
 
               <div className="mb-3">

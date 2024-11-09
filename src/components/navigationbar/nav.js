@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-
+import {useNavigate} from 'react-router-dom';
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+const navigate = useNavigate();
+
+  const gotopage = async (name) => {
+        console.log(name);
+        navigate(`/clothingstore?name=${name}`);
+  }
 
   return (
     <>
@@ -69,18 +75,18 @@ const Navigation = () => {
                   <div className="dropdown-container">
                     <div className="submenu">
                       <h6 className="dropdown-header">Clothing</h6>
-                      <a className="dropdown-item " href="/tshirts"> T-Shirts </a>
-                      <a className="dropdown-item " href="/jeans">Shirts </a>
-                      <a className="dropdown-item " href="/dresses">Jeans</a>
-                      <a className="dropdown-item " href="/dresses">Shorts</a>
-                      <a className="dropdown-item " href="/dresses">Skirts</a>
+                      <button className="dropdown-item "  onClick={() => gotopage('women')}> T-Shirts </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Shirts  </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Jeans </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Shorts </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Skirts </button>
                     </div>
                     <div className="submenu">
                       <h6 className="dropdown-header">Accessories</h6>
-                      <a className="dropdown-item " href="/jewelry">Earrings</a>
-                      <a className="dropdown-item " href="/jewelry">Necklaces</a>
-                      <a className="dropdown-item " href="/jewelry">Bracelets</a>
-                       <a className="dropdown-item " href="/bags">Bags</a>
+                      <button className="dropdown-item "onClick={() => gotopage('women')}>Earrings</button>
+                      <button className="dropdown-item " onClick={() => gotopage('women')}>Necklaces</button>
+                      <button className="dropdown-item " onClick={() => gotopage('women')}>Bracelets</button>
+                      <button className="dropdown-item " onClick={() => gotopage('women')}>Bags</button>
                        
                     
                     </div>
@@ -97,18 +103,18 @@ const Navigation = () => {
                   <div className="dropdown-container">
                     <div className="submenu">
                       <h6 className="dropdown-header">Clothing</h6>
-                      <a className="dropdown-item " href="/shirts">Shirts</a>
-                      <a className="dropdown-item " href="/shirts">T Shirt</a>
-                      <a className="dropdown-item " href="/shirts">Trousers</a>
-                      <a className="dropdown-item " href="/shirts">Shorts</a>
-                      <a className="dropdown-item " href="/shirts">Sarong</a>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>Shirts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>T Shirt</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>Trousers</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>Shorts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>Sarong</button>
 
                          </div>
                     <div className="submenu">
                       <h6 className="dropdown-header">Accessories</h6>
-                      <a className="dropdown-item " href="/watches">Watches </a>
-                      <a className="dropdown-item " href="/shoes">Shoes</a>
-                      <a className="dropdown-item " href="/shoes">Bags</a>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>Watches </button>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>Shoes</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men')}>Bags</button>
                     </div>
                   </div>
                 </div>
@@ -122,24 +128,21 @@ const Navigation = () => {
                   <div className="dropdown-container">
                     <div className="submenu">
                       <h6 className="dropdown-header">Boys</h6>
-                      <a className="dropdown-item " href="/boys-clothing">Shirts</a>
-                      <a className="dropdown-item " href="/boys-clothing">T-Shirts</a>
-                      <a className="dropdown-item " href="/boys-clothing">Jeans</a>
-                      <a className="dropdown-item " href="/boys-clothing">Shorts</a>
-                      <a className="dropdown-item " href="/watches">Watches </a>
-                      <a className="dropdown-item " href="/shoes">Shoes</a>
-                      <a className="dropdown-item " href="/shoes">Bags</a>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shirts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>T-Shirts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Jeans</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shorts</button>
+                      <button  className="dropdown-item " onClick={() => gotopage('kid')}>Watches </button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shoes</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Bags</button>
                     </div>
 
                     <div className="submenu">
                       <h6 className="dropdown-header">Girls</h6>
-                      <a className="dropdown-item " href="/boys-clothing">Frockes</a>
-                      <a className="dropdown-item " href="/boys-clothing">Tops</a>
-                      <a className="dropdown-item " href="/boys-clothing">Skirts</a>
-                      <a className="dropdown-item " href="/boys-clothing">Shorts</a>
-                      <a className="dropdown-item " href="/watches">Watches </a>
-                      <a className="dropdown-item " href="/shoes">Shoes</a>
-                      <a className="dropdown-item " href="/shoes">Bags</a>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Watches</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shoes</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Bags</button>
+          
                     </div>
 
                   </div>
