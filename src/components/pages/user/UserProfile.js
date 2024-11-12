@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-
+import Nav from '../../navigationbar/nav'
 export default function UserProfile() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
@@ -29,6 +29,9 @@ export default function UserProfile() {
   if (!userData) return <div className="text-center">Loading...</div>;
 
   return (
+    <>
+      <Nav />
+    
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6">
@@ -77,5 +80,6 @@ export default function UserProfile() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -16,6 +16,10 @@ import Women from './components/pages/admin/admin_profile/admindashboardwomen/Ad
 import Customers from './components/pages/admin/admincustomers/AdminCustomers';
 
 import ClothingStore from './components/pages/clothingstore/ClothingStore';
+import Cart from './components/pages/user/cart/Cart';
+
+import AboutUs from './components/pages/aboutus/AboutUs';
+import ContactUs from './components/pages/contactus/ContactUs';
 
 function App() {
 
@@ -35,6 +39,9 @@ function App() {
                 <Route path="/customers" element={<Customers />} />
          <Route path="/adminaddcloths" element={<Adminaddcloths />} />
          <Route path="/clothingstore" element={<ClothingStore />} />
+         <Route path="/cart" element={<Cart />} />
+         <Route path="/aboutus" element={<AboutUs />} />
+         <Route path="/contactus" element={<ContactUs />} />
 
       </Routes>
     </Router>

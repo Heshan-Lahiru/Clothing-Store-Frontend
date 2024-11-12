@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
 import Sidebarcomponent from '../admin_profile/admin';
-
+import { useNavigate } from 'react-router-dom';
 export default function AdminAddCloths() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ gendertype : '' , name: '', type: '', price: '', qty: '', description: '', image: null,});
 
   const handleInputChange = (e) => {const { name, value } = e.target; setFormData({ ...formData, [name]: value });};
@@ -14,20 +15,26 @@ export default function AdminAddCloths() {
   if (!gendertype || !name || !type || !price || !qty || !description || !image) {alert("Please fill out all fields.");return;}
    let isactive = true;
   const datanew = new FormData();
-  datanew.append('menClothDao', JSON.stringify({ name, type, price, qty, description ,isactive}));
+  datanew.append('ClothDao', JSON.stringify({ name, type, price, qty, description ,isactive}));
   datanew.append('multipartFile', image);
  
   if(gendertype==="men"){
     const response =await  fetch("http://localhost:9070/menclothadd", { method: "POST", body: datanew, })
     if (!response.ok) {alert("An error Ocured ...");}
-    else{
-      await response.json();
-      alert("Cloth Added successfully");
-    }
-    
+    else{ await response.json(); alert("Cloth Added successfully"); navigate('/adminprofile');}
   }
- else if(gendertype==="women"){  alert(" Women");}
- else if(gendertype==="child"){  alert(" Child");}
+
+ else if(gendertype==="women"){
+  const response =await  fetch("http://localhost:9070/womenclothadd", { method: "POST", body: datanew, })
+  if (!response.ok) {alert("An error Ocured ...");}
+  else{ await response.json(); alert("Cloth Added successfully"); navigate('/adminprofile');}
+ }
+
+ else if(gendertype==="child"){
+  const response =await  fetch("http://localhost:9070/kidclothadd", { method: "POST", body: datanew, })
+  if (!response.ok) {alert("An error Ocured ...");}
+  else{ await response.json(); alert("Cloth Added successfully"); navigate('/adminprofile');}
+ }
   else{
     alert(" Something went wrong");
   }
@@ -131,7 +138,7 @@ export default function AdminAddCloths() {
 
                 <div className="d-grid gap-2 mb-3">
                   <button type="button" className="btn btn-primary btn-lg rounded-3" onClick={addcloths}>
-                    Register
+                    Add 
                   </button>
                 </div>
               </form>
