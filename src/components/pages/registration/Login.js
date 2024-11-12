@@ -35,7 +35,7 @@ const logincustomer = async () => {
           navigate('/admin');
          }
          else{
-          navigate('/userprofile');
+          navigate('/');
          }
 
 

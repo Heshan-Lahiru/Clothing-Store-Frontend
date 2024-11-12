@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../../navigationbar/nav'
 import './HomeStyle.css'
+import Footer from '../../footer/Footer'
+
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -98,7 +100,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-
+<Footer />
     </div>
   );
 };

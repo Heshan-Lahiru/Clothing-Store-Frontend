@@ -5,9 +5,14 @@ const Navigation = () => {
 const navigate = useNavigate();
 
   const gotopage = async (name) => {
-        console.log(name);
         navigate(`/clothingstore?name=${name}`);
   }
+
+ 
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+
+    }
 
   return (
     <>
@@ -63,7 +68,7 @@ const navigate = useNavigate();
           <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`}>
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
-                <a className="nav-link fw-bold" href="#home">HOME</a>
+                <a className="nav-link fw-bold" href="/">HOME</a>
               </li>
          
 
@@ -75,20 +80,18 @@ const navigate = useNavigate();
                   <div className="dropdown-container">
                     <div className="submenu">
                       <h6 className="dropdown-header">Clothing</h6>
-                      <button className="dropdown-item "  onClick={() => gotopage('women')}> T-Shirts </button>
-                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Shirts  </button>
-                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Jeans </button>
-                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Shorts </button>
-                      <button className="dropdown-item "  onClick={() => gotopage('women')}>Skirts </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women-tshirt')}> T-Shirts </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women-shirt')}>Shirts  </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women-jeans')}>Jeans </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women-shorts')}>Shorts </button>
+                      <button className="dropdown-item "  onClick={() => gotopage('women-skirts')}>Skirts </button>
                     </div>
                     <div className="submenu">
                       <h6 className="dropdown-header">Accessories</h6>
-                      <button className="dropdown-item "onClick={() => gotopage('women')}>Earrings</button>
-                      <button className="dropdown-item " onClick={() => gotopage('women')}>Necklaces</button>
-                      <button className="dropdown-item " onClick={() => gotopage('women')}>Bracelets</button>
-                      <button className="dropdown-item " onClick={() => gotopage('women')}>Bags</button>
+                      <button className="dropdown-item " onClick={() => gotopage('women-watches')}>Watches </button>
+                      <button className="dropdown-item " onClick={() => gotopage('women-shoes')}>Shoes</button>
+                      <button className="dropdown-item " onClick={() => gotopage('women-bags')}>Bags</button>
                        
-                    
                     </div>
                   </div>
                 </div>
@@ -103,18 +106,18 @@ const navigate = useNavigate();
                   <div className="dropdown-container">
                     <div className="submenu">
                       <h6 className="dropdown-header">Clothing</h6>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>Shirts</button>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>T Shirt</button>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>Trousers</button>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>Shorts</button>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>Sarong</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-shirts')}>Shirts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-tshirts')}>T Shirt</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-trousers')}>Trousers</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-shorts')}>Shorts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-jeans')}>Jeans</button>
 
                          </div>
                     <div className="submenu">
                       <h6 className="dropdown-header">Accessories</h6>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>Watches </button>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>Shoes</button>
-                      <button className="dropdown-item " onClick={() => gotopage('men')}>Bags</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-watches')}>Watches </button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-shoes')}>Shoes</button>
+                      <button className="dropdown-item " onClick={() => gotopage('men-bags')}>Bags</button>
                     </div>
                   </div>
                 </div>
@@ -128,20 +131,17 @@ const navigate = useNavigate();
                   <div className="dropdown-container">
                     <div className="submenu">
                       <h6 className="dropdown-header">Boys</h6>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shirts</button>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>T-Shirts</button>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Jeans</button>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shorts</button>
-                      <button  className="dropdown-item " onClick={() => gotopage('kid')}>Watches </button>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shoes</button>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Bags</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid-shirts')}>Shirts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid-tshirts')}>T-Shirts</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid-jeans')}>Jeans</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid-shorts')}>Shorts</button>
                     </div>
 
                     <div className="submenu">
                       <h6 className="dropdown-header">Girls</h6>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Watches</button>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Shoes</button>
-                      <button className="dropdown-item " onClick={() => gotopage('kid')}>Bags</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid-watches')}>Watches</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid-shoes')}>Shoes</button>
+                      <button className="dropdown-item " onClick={() => gotopage('kid-bags')}>Bags</button>
           
                     </div>
 
@@ -150,24 +150,35 @@ const navigate = useNavigate();
               </li>
 
               <li className="nav-item">
-                <a className="nav-link fw-bold" href="/about">ABOUT US</a>
+                <a className="nav-link fw-bold" href="/aboutus">ABOUT US</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link fw-bold" href="/contact">CONTACT</a>
+                <a className="nav-link fw-bold" href="/contactus">CONTACT</a>
               </li>
             </ul>
 
-            <div className="d-flex gap-3">
-              <a href="/login" className="btn btn-outline-none">
-                <i className="bi bi-person-fill me-2"></i>Login
-              </a>
-              <a href="/signup" className="btn btn-outline-none">
-                <i className="bi bi-person-plus-fill me-2"></i>Sign Up
-              </a>
-              <a href="/whatsapp" ><img src="./WhatsApp_icon.png" alt="Logo" height="40" className="d-inline-block align-top" /></a>  
-              <a href="/userprofile" > <img src="./Profile.png" alt="Logo" height="40" className="d-inline-block align-top" /></a>
-
-            </div>
+            { !token ? (
+          <div className="d-flex gap-3">
+            <a href="/login" className="btn btn-outline-none">
+              <i className="bi bi-person-fill me-2"></i>Login
+            </a>
+            <a href="/signup" className="btn btn-outline-none">
+              <i className="bi bi-person-plus-fill me-2"></i>Sign Up
+            </a>
+          </div>
+        ) : (
+          <div className="d-flex gap-3">
+            <a href="/whatsapp">
+              <img src="./WhatsApp_icon.png" alt="WhatsApp" height="40" className="d-inline-block align-top" />
+            </a>
+            <a href="/userprofile">
+              <img src="./Profile.png" alt="Profile" height="40" className="d-inline-block align-top" />
+            </a>
+            <a href="/cart">
+              <img src="./cart.png" alt="WhatsApp" height="40" className="d-inline-block align-top" />
+            </a>
+          </div>
+        )}
           </div>
         </div>
       </nav>
