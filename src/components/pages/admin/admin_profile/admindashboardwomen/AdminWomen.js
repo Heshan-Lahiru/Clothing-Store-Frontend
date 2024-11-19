@@ -5,6 +5,9 @@ import axios from 'axios';
 export default function AdminWomen() {
   const [data, setData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [updatedata, setUpdateData] = useState([]);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imagedata, setImageData] = useState(null); 
 
   useEffect(() => {
     fetchData();
@@ -33,6 +36,73 @@ export default function AdminWomen() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+
+const updatesetdata = (item) =>{
+setUpdateData(item);
+setImagePreview(item.image);
+setImageData(item.image);
+}
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setUpdateData((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
+}
+
+ const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setUpdateData({
+      ...updatedata,
+      image: file, 
+    });
+    setImagePreview(URL.createObjectURL(file)); 
+  };
+
+  const updateform = () => {
+    const { womenid, name, type, price, qty, description, isactive, image } = updatedata;
+    if (!name || !type || !price || !qty || !description) {
+      alert("Please fill all required fields!");
+      return;
+    }
+    const formData = new FormData();
+    formData.append(
+      'ClothDao',
+      JSON.stringify({ womenid, name, type, price, qty, description, isactive })
+    );
+  
+    if (image instanceof File) {
+      formData.append('multipartFile', image);
+    } else {
+      formData.append('imageName', imagedata);
+    }
+  
+    console.log("Form data:", Array.from(formData.entries()));
+  
+    axios
+      .put('http://localhost:9070/womenclothupdate', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log("Update successful:", response.data);
+        fetchData();
+        alert("Update successful");
+        const modalCloseButton = document.querySelector('.btn-close');
+        if (modalCloseButton) {
+          modalCloseButton.click();
+        }
+      })
+      .catch((error) => {
+        console.error("Update error:", error);
+        alert("Failed to update item");
+      });
+  };
+
+
+
 
   return (
     <div className="container-fluid p-0">
@@ -120,7 +190,8 @@ export default function AdminWomen() {
                           </button>
                           <button 
                             className="btn btn-primary btn-sm"
-                            onClick={() => window.location.href = `/update-men/${item._id}`}
+                          data-bs-toggle="modal" data-bs-target="#exampleModal"
+                          onClick={() => updatesetdata(item)}
                           >
                             Update
                           </button>
@@ -134,6 +205,82 @@ export default function AdminWomen() {
           </div>
         </div>
       </div>
+
+
+  {/* update box form */}
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+          <div class="mb-3">
+            <label class="col-form-label">Name:</label>
+            <input type="text" class="form-control" value={updatedata.name} onChange={handleChange}  name='name' />
+          </div>
+
+          <div className="mb-4">
+                <label className="form-label">Dress Picture:</label>
+                <input type="file" onChange={handleFileChange} className="form-control rounded-3" />
+                {imagePreview && (
+                  <img 
+                    src={imagePreview.startsWith("blob:") ? imagePreview : `http://localhost:9070/images/women/${imagePreview}`} 
+                    alt="Selected" 
+                    className="mt-3 rounded" 
+                    style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
+                  />
+                )}
+              </div>
+
+          <div class="mb-3">
+            <label class="col-form-label">Type:</label>
+            <select className="form-select rounded-3" value={updatedata.type} onChange={handleChange}  name="type" >
+                        <option value="">Select Type</option>
+                        <option value="tshirts">T-Shirts</option>
+                        <option value="shirts">Shirts</option>
+                        <option value="trousers">Trousers</option>
+                        <option value="jeans">Jeans</option>
+                        <option value="shorts">Shorts</option>
+                        <option value="skirts">Skirts</option>
+                        <option value="watches">Watches</option>
+                        <option value="bags">Bags</option>
+                        <option value="shoes">Shoes</option>
+                      </select>
+          </div>
+          <div class="mb-3">
+            <label class="col-form-label">Price:</label>
+            <input type="text" class="form-control" onChange={handleChange}  value={updatedata.price} name='price' />
+          </div>
+          <div class="mb-3">
+            <label class="col-form-label">Quantity:</label>
+            <input type="text" class="form-control" onChange={handleChange}  value={updatedata.qty} name='qty' />
+          </div>
+          <div class="mb-3">
+            <label class="col-form-label">Description:</label>
+            <input type="text" class="form-control" onChange={handleChange}  value={updatedata.description} name='description' />
+          </div>
+          <div class="mb-3">
+            <label class="col-form-label">Is Active:</label>
+             <select className="form-select rounded-3"  value={updatedata.isactive} onChange={handleChange}  name="isactive" >
+              <option value="true">True</option>
+              <option value="false">False</option>
+              </select>
+            </div>
+         
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" onClick={updateform} class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
       {isSidebarOpen && (
         <div 

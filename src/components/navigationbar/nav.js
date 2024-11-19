@@ -242,7 +242,7 @@ const navigate = useNavigate();
           width: 70%;
         }
 
-        /* Megamenu styles */
+        
         .has-megamenu {
           position: static !important;
         }
@@ -266,7 +266,7 @@ const navigate = useNavigate();
           min-width: 200px;
         }
 
-        /* Hover dropdown trigger */
+       
         .dropdown:hover > .dropdown-menu {
           display: block;
         }
@@ -275,7 +275,7 @@ const navigate = useNavigate();
           margin-top: 0;
         }
 
-        /* Submenu styles */
+        
         .has-submenu {
           position: relative;
           display: flex;
