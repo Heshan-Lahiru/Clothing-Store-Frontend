@@ -20,6 +20,7 @@ import Cart from './components/pages/user/cart/Cart';
 
 import AboutUs from './components/pages/aboutus/AboutUs';
 import ContactUs from './components/pages/contactus/ContactUs';
+import Category from './components/pages/category/Category';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
          <Route path="/cart" element={<Cart />} />
          <Route path="/aboutus" element={<AboutUs />} />
          <Route path="/contactus" element={<ContactUs />} />
+         <Route path="/category" element={<Category />} />
 
       </Routes>
     </Router>

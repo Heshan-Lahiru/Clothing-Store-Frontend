@@ -49,7 +49,7 @@ export default function Cart() {
     };
 
     const calculateTotal = () => {
-        return data.reduce((total, item) => total + (Number(item.price) * item.qty), 0);
+        return data.reduce((total, item) => total + (Number(item.price) * 1), 0);
     };
 
     if (error) {
@@ -90,7 +90,7 @@ export default function Cart() {
                     </div>
                     <button 
                         className="btn btn-primary mt-3"
-                        onClick={() => navigate('/products')}
+                        onClick={() => navigate('/')}
                     >
                         Continue Shopping
                     </button>
@@ -109,7 +109,6 @@ export default function Cart() {
                                             <th scope="col">Type</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Price</th>
-                                            <th scope="col">Quantity</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
@@ -133,7 +132,7 @@ export default function Cart() {
                                                     </small>
                                                 </td>
                                                 <td className="fw-bold">${formatPrice(item.price)}</td>
-                                                <td>{item.qty}</td>
+                                                
                                                 <td>
                                                     <button 
                                                         className="btn btn-danger btn-sm"

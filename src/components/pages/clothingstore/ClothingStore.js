@@ -13,13 +13,21 @@ export default function ClothingStore() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [gendertype, setGendertype] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const name = queryParams.get('name');
   let shirts = ""; 
+
+
+
   const token = localStorage.getItem('jwtToken');
-  const decodedToken = jwtDecode(token);
+  let decodedToken ="";
+  if(token){
+   decodedToken = jwtDecode(token);}
   useEffect(() => {
+    
     AOS.init({duration: 1000,once: true, offset: 100 });
 
 switch(name){
@@ -114,9 +122,10 @@ const kidrequestData = { menid: item.kidid, cusid: decodedToken.cus_id, type:gen
 
   if (error) {
     return (
-      <div className="alert alert-danger m-4" role="alert" data-aos="fade-up">
-        {error}
-      </div>
+     <div>
+       <Nav />
+      <center> <h1>We are updating</h1></center>
+     </div>
     );
   }
 
@@ -147,7 +156,7 @@ const kidrequestData = { menid: item.kidid, cusid: decodedToken.cus_id, type:gen
             <div className="col-md-6" data-aos="fade-left">
               <div className="p-4 text-end">
                 <img 
-                  src="https://png.pngtree.com/png-clipart/20231027/original/pngtree-wedding-couple-in-yellow-dress-png-image_13445577.png" 
+                  src="./cover1.webp" 
                   alt="Fashion Banner" 
                   className="img-fluid rounded floating-image"
                 />
