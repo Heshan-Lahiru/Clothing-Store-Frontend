@@ -1,7 +1,9 @@
 #E-commerce application for customers of a clothing store
 
-![Screenshot (302)](https://github.com/user-attachments/assets/f23825be-1714-4ab6-9b31-0f72a4d9471a)
+![Screenshot (310)](https://github.com/user-attachments/assets/f70782fd-21cb-45d2-ad62-6d6121298612)
 
+
+![Screenshot (309)](https://github.com/user-attachments/assets/9c9c8aea-746f-481d-a07b-c99f657f77ed)
 
 #Use Case Diagram
 
