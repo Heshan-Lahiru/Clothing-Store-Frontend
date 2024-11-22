@@ -95,6 +95,14 @@ const Home = () => {
     navigate('/category')
   }
 
+  const gotoplane =(title) =>{
+switch(title){
+  case "Trendy Kid's Collection" : navigate('/category'); break;
+  case "Exclusive Men's Wear" : navigate('/category'); break;
+  case "Women's Fashion Line" : navigate('/category'); break;
+}
+  }
+
   return (
     <div>
 
@@ -251,7 +259,7 @@ const Home = () => {
             <div className="image-button-content">
               <h3>{path.title}</h3>
               <p>{path.description}</p>
-              <button className="btn btn-light btn-lg mt-3">
+              <button onClick={() => gotoplane(path.title)} className="btn btn-light btn-lg mt-3">
                 Select Plan
               </button>
             </div>
