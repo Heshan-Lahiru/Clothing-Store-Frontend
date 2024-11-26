@@ -5,9 +5,14 @@ import 'animate.css/animate.min.css';
 import Nav from '../../navigationbar/nav'
 import Footer from '../../footer/Footer'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(0);
  const navigate = useNavigate();
+ const [images, setImages] = useState([]);
+ const [women, setwomen] = useState([]);
+ const [kid, setkid] = useState([]);
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % 3);
@@ -25,11 +30,45 @@ const Home = () => {
       observer.observe(elem);
     });
 
+
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get('http://localhost:9070/showmencloths'); 
+        setImages(response.data); 
+      } catch (err) {
+        console.error('Error fetching images:', err);
+      }
+    };
+  
+    fetchImages(); 
+
+    const womenfunc = async () => {
+      try {
+        const response = await axios.get('http://localhost:9070/showwomencloths'); 
+        setwomen(response.data); 
+      } catch (err) {
+        console.error('Error fetching images:', err);
+      }
+    };
+    womenfunc(); 
+
+    const kidfunc = async () => {
+      try {
+        const response = await axios.get('http://localhost:9070/showkidcloths'); 
+        setkid(response.data); 
+      } catch (err) {
+        console.error('Error fetching images:', err);
+      }
+    };
+    kidfunc(); 
+
     return () => {
       clearInterval(interval);
       observer.disconnect();
     };
   }, []);
+
+
 
   const slides = [
     {
@@ -93,6 +132,30 @@ const Home = () => {
 
   const gotocategory =() =>{
     navigate('/category')
+  }
+
+  const gotoplane =(title) =>{
+switch(title){
+  case "Trendy Kid's Collection" : navigate('/category'); break;
+  case "Exclusive Men's Wear" : navigate('/category'); break;
+  case "Women's Fashion Line" : navigate('/category'); break;
+}
+  }
+
+
+  const groupedImages = [];
+  for (let i = 0; i < images.length; i += 5) {
+    groupedImages.push(images.slice(i, i + 5));
+  }
+
+  const groupedImageswomen = [];
+  for (let i = 0; i < women.length; i += 5) {
+    groupedImageswomen.push(women.slice(i, i + 5));
+  }
+
+  const groupedImageskid = [];
+  for (let i = 0; i < kid.length; i += 5) {
+    groupedImageskid.push(kid.slice(i, i + 5));
   }
 
   return (
@@ -172,7 +235,65 @@ const Home = () => {
         </div>
       </div>
 
+ {/* men slider*/}
 
+ <div className="container mt-5" style={{ height: '200px', overflow: 'hidden' }}>
+      <div
+        id="imageCarousel"
+        className="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="1000"
+      >
+        <div className="carousel-inner">
+          {groupedImages.length > 0 ? (
+            groupedImages.map((group, index) => (
+              <div
+                className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                key={index}
+              >
+                <div className="d-flex justify-content-between">
+                  {group.map((image, idx) => (
+                    <div className="col-2" key={idx} style={{ padding: '5px' }}>
+                      <img
+                        src={`http://localhost:9070/images/men/${image.image}`} 
+                        className="d-block w-100"
+                        alt={`Image ${idx}`}
+                        style={{
+                          height: '100px', 
+                          objectFit: 'cover',
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No images available</p>
+          )}
+        </div>
+
+        {/* Carousel controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#imageCarousel"
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#imageCarousel"
+          data-bs-slide="next"
+        >
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
 
 {/* Additional Animated Content */}
 <section className="py-5">
@@ -200,6 +321,68 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+
+
+{/* women slider  */}
+<div className="container mt-5" style={{ height: '200px', overflow: 'hidden' }}>
+      <div
+        id="imageCarousel"
+        className="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="1000"
+      >
+        <div className="carousel-inner">
+          {groupedImageswomen.length > 0 ? (
+            groupedImageswomen.map((group, index) => (
+              <div
+                className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                key={index}
+              >
+                <div className="d-flex justify-content-between">
+                  {group.map((image, idx) => (
+                    <div className="col-2" key={idx} style={{ padding: '5px' }}>
+                      <img
+                        src={`http://localhost:9070/images/women/${image.image}`} 
+                        className="d-block w-100"
+                        alt={`Image ${idx}`}
+                        style={{
+                          height: '100px', 
+                          objectFit: 'cover',
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No images available</p>
+          )}
+        </div>
+
+        {/* Carousel controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#imageCarousel"
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#imageCarousel"
+          data-bs-slide="next"
+        >
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
 
 
       {/* Animated Paragraphs Section */}
@@ -232,6 +415,65 @@ const Home = () => {
 </section>
 
 
+{/* kid slider */}
+<div className="container mt-5" style={{ height: '200px', overflow: 'hidden' }}>
+      <div
+        id="imageCarousel"
+        className="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="1000"
+      >
+        <div className="carousel-inner">
+          {groupedImageskid.length > 0 ? (
+            groupedImageskid.map((group, index) => (
+              <div
+                className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                key={index}
+              >
+                <div className="d-flex justify-content-between">
+                  {group.map((image, idx) => (
+                    <div className="col-2" key={idx} style={{ padding: '5px' }}>
+                      <img
+                        src={`http://localhost:9070/images/child/${image.image}`} 
+                        className="d-block w-100"
+                        alt={`Image ${idx}`}
+                        style={{
+                          height: '100px', 
+                          objectFit: 'cover',
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No images available</p>
+          )}
+        </div>
+
+        {/* Carousel controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#imageCarousel"
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#imageCarousel"
+          data-bs-slide="next"
+        >
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
       {/* Three Image Buttons Section */}
       <section className="py-5 bg-dark text-white">
   <div className="container">
@@ -251,7 +493,7 @@ const Home = () => {
             <div className="image-button-content">
               <h3>{path.title}</h3>
               <p>{path.description}</p>
-              <button className="btn btn-light btn-lg mt-3">
+              <button onClick={() => gotoplane(path.title)} className="btn btn-light btn-lg mt-3">
                 Select Plan
               </button>
             </div>
